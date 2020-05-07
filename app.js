@@ -10,7 +10,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const dbPath = process.env.MONGODB_URI;
-// pruebaECO
+// pruebaECOooooo
 mongoose
 	.connect(dbPath, {
 		useCreateIndex: true,
