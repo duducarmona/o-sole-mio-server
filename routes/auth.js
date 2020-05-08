@@ -30,6 +30,7 @@ router.post('/signup', checkUsernameAndPasswordNotEmpty, async (req, res, next) 
 
 		const newUser = await User.create({ username, hashedPassword });
 		req.session.currentUser = newUser;
+
 		return res.json(newUser);
 	} catch (error) {
 		next(error);
