@@ -6,12 +6,42 @@ const router = express.Router();
 
 // POST /terraces
 router.post('/', (req, res, next) => {
-  const { name, userId, description } = req.body;
+  const { 
+    name, 
+    userId, 
+    description,
+    address,
+    phone,
+    email,
+    picture,
+    beerPrice,
+    bestTapa,
+    type,
+    liveMusic,
+    petFriendly,
+    menuPicture,
+    sunAmount,
+    sunRegisterTime,
+    // starsNumber, 
+  } = req.body;
   
 	Terrace.create({
 		name,
     userId,
-    description
+    description,
+    address,
+    phone,
+    email,
+    picture,
+    beerPrice,
+    bestTapa,
+    type,
+    liveMusic,
+    petFriendly,
+    menuPicture,
+    sunAmount,
+    sunRegisterTime,
+    // starsNumber
 	})
 		.then(terrace => {
 			res.json(terrace);
