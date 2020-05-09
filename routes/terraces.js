@@ -19,4 +19,13 @@ router.post('/', (req, res, next) => {
 		.catch(next);
 });
 
+// GET /terraces
+router.get('/', (req, res, next) => {
+	Terrace.find()
+		.then(terraces => {
+			res.status(200).json(terraces);
+		})
+		.catch(next);
+});
+
 module.exports = router;
