@@ -69,4 +69,15 @@ router.delete('/:id', (req, res, next) => {
     .catch(next);
 });
 
+// GET /terraces/:id
+router.get('/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  Terrace.findById(id)
+    .then(terrace => {
+      res.json(terrace);
+    })
+    .catch(next);
+})
+
 module.exports = router;
