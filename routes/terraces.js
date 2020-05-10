@@ -78,6 +78,52 @@ router.get('/:id', (req, res, next) => {
       res.json(terrace);
     })
     .catch(next);
-})
+});
+
+// PUT /terraces/:id
+router.put('/:id', (req, res, next) => {
+  const { id } = req.params;
+  const { 
+    name, 
+    description,
+    address,
+    phone,
+    email,
+    picture,
+    beerPrice,
+    bestTapa,
+    type,
+    liveMusic,
+    petFriendly,
+    menuPicture,
+    sunAmount,
+    sunRegisterTime
+  } = req.body;
+
+  Terrace.findByIdAndUpdate(id, {
+    name,
+    description,
+    address,
+    phone,
+    email,
+    picture,
+    beerPrice,
+    bestTapa,
+    type,
+    liveMusic,
+    petFriendly,
+    menuPicture,
+    sunAmount,
+    sunRegisterTime
+  })
+  .then(terraceUpdated => {
+    if (terraceUpdated) {
+      res.json(terraceUpdated);
+    } else {
+      res.status(404).json('not found');
+    }
+  })
+  .catch(next);
+});
 
 module.exports = router;
