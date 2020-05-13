@@ -38,4 +38,15 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
+// DELETE /reviews/:id
+router.delete('/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  Review.findByIdAndDelete(id)
+    .then(review => {
+      res.json(review);
+    })
+    .catch(next);
+});
+
 module.exports = router;
