@@ -49,4 +49,39 @@ router.delete('/:id', (req, res, next) => {
     .catch(next);
 });
 
+// GET /reviews/:id/detail
+router.get('/:id/detail', (req, res, next) => {
+  const { id } = req.params;
+
+  Review.findById(id)
+    .then(review => {
+      res.json(review);
+    })
+    .catch(next);
+});
+
+// PUT /reviews/:id
+router.put('/:id', (req, res, next) => {
+  const { id } = req.params;
+  const { 
+    title,
+    text,
+    rating
+  } = req.body;
+
+  Review.findByIdAndUpdate(id, {
+    title,
+    text,
+    rating
+  })
+  .then(reviewUpdated => {
+    if (reviewUpdated) {
+      res.json(reviewUpdated);
+    } else {
+      res.status(404).json('not found');
+    }
+  })
+  .catch(next);
+});
+
 module.exports = router;
