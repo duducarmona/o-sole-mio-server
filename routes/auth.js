@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const express = require('express');
 const bcrypt = require('bcrypt');
 
@@ -39,11 +40,13 @@ router.post('/signup', checkUsernameAndPasswordNotEmpty, async (req, res, next) 
 
 router.post('/login', checkUsernameAndPasswordNotEmpty, async (req, res, next) => {
 	const { username, password } = res.locals.auth;
+	
 	try {
 		const user = await User.findOne({ username });
 		if (!user) {
 			return res.status(404).json({ code: 'not-found' });
 		}
+		
 		if (bcrypt.compareSync(password, user.hashedPassword)) {
 			req.session.currentUser = user;
 			return res.json(user);
@@ -54,6 +57,18 @@ router.post('/login', checkUsernameAndPasswordNotEmpty, async (req, res, next) =
 	}
 });
 
+router.post('/checkCorrectPassword/:password', async (req, res, next) => {
+	const { password } = req.params;
+	const { hashedPassword } = req.body;
+
+	if (bcrypt.compareSync(password, hashedPassword)) {
+		console.log('CORRECTO');
+	}
+	else {
+		console.log('INCORRECTO');
+	}
+});
+
 router.get('/logout', (req, res, next) => {
 	req.session.destroy(err => {
 		if (err) {
@@ -61,6 +76,23 @@ router.get('/logout', (req, res, next) => {
 		}
 		return res.status(204).send();
 	});
+});
+
+router.put('/user/:id', (req, res, next) => {
+	const { id } = req.params;
+	const { username } = req.body;
+
+	User.findByIdAndUpdate(id, {
+    username
+  })
+  .then(userUpdated => {
+    if (userUpdated) {
+      res.json(userUpdated);
+    } else {
+      res.status(404).json('not found');
+    }
+  })
+  .catch(next);
 });
 
 module.exports = router;
