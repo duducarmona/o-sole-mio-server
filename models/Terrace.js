@@ -25,7 +25,7 @@ const terraceSchema = new Schema({
   liveMusic: Boolean,
   petFriendly: Boolean,
   menuPicture: String,
-  sunAmount: { type: String, enum: ['totallySunny', 'partlySunny', 'notSunny'] },
+  sunAmount: Number,
   sunRegisterTime: Date,
   // starsNumber: Number
 });

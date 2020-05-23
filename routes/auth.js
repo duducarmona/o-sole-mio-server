@@ -57,17 +57,17 @@ router.post('/login', checkUsernameAndPasswordNotEmpty, async (req, res, next) =
 	}
 });
 
-router.post('/checkCorrectPassword/:password', async (req, res, next) => {
-	const { password } = req.params;
-	const { hashedPassword } = req.body;
+// router.post('/checkCorrectPassword/:password', async (req, res, next) => {
+// 	const { password } = req.params;
+// 	const { hashedPassword } = req.body;
 
-	if (bcrypt.compareSync(password, hashedPassword)) {
-		console.log('CORRECTO');
-	}
-	else {
-		console.log('INCORRECTO');
-	}
-});
+// 	if (bcrypt.compareSync(password, hashedPassword)) {
+// 		console.log('CORRECTO');
+// 	}
+// 	else {
+// 		console.log('INCORRECTO');
+// 	}
+// });
 
 router.get('/logout', (req, res, next) => {
 	req.session.destroy(err => {
