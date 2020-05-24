@@ -1,18 +1,28 @@
 /* eslint-disable prettier/prettier */
 const express = require('express');
 const Review = require('../models/Review');
+const User = require('../models/User');
 
 const router = express.Router();
 
 // GET /terraces/:id/reviews
-router.get('/:terraceId', (req, res, next) => {
+router.get('/:terraceId', async (req, res, next) => {
   const { terraceId } = req.params;
-  
-  Review.find({ terraceId })
-    .then(reviews => {
-      res.json(reviews);
-    })
-    .catch(next);
+  let reviews;
+
+  try {
+    reviews = await Review.find({ terraceId });
+  } catch (error) {
+    next(error);
+  }
+
+  try {
+    await User.populate(reviews, {path: 'userId'});
+  } catch (error) {
+    next(error);
+  }
+
+  res.json(reviews);
 });
 
 // POST /reviews
