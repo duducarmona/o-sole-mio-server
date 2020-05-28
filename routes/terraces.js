@@ -22,7 +22,8 @@ router.post('/', (req, res, next) => {
     menuPicture,
     sunAmount,
     sunRegisterTime,
-    // starsNumber, 
+    freeTables = 0,
+    updates = 0, 
   } = req.body;
   
 	Terrace.create({
@@ -41,7 +42,8 @@ router.post('/', (req, res, next) => {
     menuPicture,
     sunAmount,
     sunRegisterTime,
-    // starsNumber
+    freeTables,
+    updates
 	})
 		.then(terrace => {
 			res.json(terrace);
@@ -114,6 +116,32 @@ router.put('/:id', (req, res, next) => {
     petFriendly,
     menuPicture,
     sunAmount,
+    sunRegisterTime
+  })
+  .then(terraceUpdated => {
+    if (terraceUpdated) {
+      res.json(terraceUpdated);
+    } else {
+      res.status(404).json('not found');
+    }
+  })
+  .catch(next);
+});
+
+// PUT /terraces/:id/updates
+router.put('/:id/updates', (req, res, next) => {
+  const { id } = req.params;
+  const { 
+    sunAmount,
+    freeTables,
+    updates,
+    sunRegisterTime
+  } = req.body;
+
+  Terrace.findByIdAndUpdate(id, {
+    sunAmount,
+    freeTables,
+    updates: updates + 1,
     sunRegisterTime
   })
   .then(terraceUpdated => {

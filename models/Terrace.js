@@ -27,7 +27,7 @@ const terraceSchema = new Schema({
   menuPicture: String,
   sunAmount: Number,
   sunRegisterTime: Date,
-  // starsNumber: Number
+  updates: Number
 });
 
 const Terrace = mongoose.model('Terrace', terraceSchema);
