@@ -15,6 +15,8 @@ const terraceSchema = new Schema({
   },
   description: String,
   address: { type: String, required: true },
+  lng: Number,
+  lat: Number,
 	phone: String,
   email: String,
   picture: String,
