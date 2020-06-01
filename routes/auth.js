@@ -39,14 +39,14 @@ router.post('/signup', checkUsernameAndPasswordNotEmpty, async (req, res, next) 
 });
 
 router.post('/login', checkUsernameAndPasswordNotEmpty, async (req, res, next) => {
-	const { username, password } = res.locals.auth;
-	
+  const { username, password } = res.locals.auth;
+  
 	try {
 		const user = await User.findOne({ username });
 		if (!user) {
 			return res.status(404).json({ code: 'not-found' });
 		}
-		
+
 		if (bcrypt.compareSync(password, user.hashedPassword)) {
 			req.session.currentUser = user;
 			return res.json(user);
@@ -83,16 +83,16 @@ router.put('/user/:id', (req, res, next) => {
 	const { username } = req.body;
 
 	User.findByIdAndUpdate(id, {
-    username
-  })
-  .then(userUpdated => {
-    if (userUpdated) {
-      res.json(userUpdated);
-    } else {
-      res.status(404).json('not found');
-    }
-  })
-  .catch(next);
+		username,
+	})
+		.then(userUpdated => {
+			if (userUpdated) {
+				res.json(userUpdated);
+			} else {
+				res.status(404).json('not found');
+			}
+		})
+		.catch(next);
 });
 
 module.exports = router;
