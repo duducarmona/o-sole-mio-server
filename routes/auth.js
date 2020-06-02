@@ -78,21 +78,29 @@ router.get('/logout', (req, res, next) => {
 	});
 });
 
-router.put('/user/:id', (req, res, next) => {
+router.put('/user/:id', async (req, res, next) => {
 	const { id } = req.params;
 	const { username } = req.body;
 
-	User.findByIdAndUpdate(id, {
-		username,
-	})
-		.then(userUpdated => {
-			if (userUpdated) {
-				res.json(userUpdated);
-			} else {
-				res.status(404).json('not found');
-			}
-		})
-		.catch(next);
+  try {
+    const user = await User.findOne({ username });
+    
+    if (user && user._id !== id) {
+      return res.status(422).json({ code: 'username-not-unique' });
+    }
+
+    const userEdited = await User.findByIdAndUpdate(id, { username })
+
+    if (userEdited) {
+      req.session.currentUser = userEdited;
+  
+      return res.json(userEdited);
+    }
+    
+    return res.status(404).json('not found');
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
