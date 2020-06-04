@@ -85,7 +85,7 @@ router.put('/user/:id', async (req, res, next) => {
   try {
     const user = await User.findOne({ username });
     
-    if (user && user._id !== id) {
+    if (user && user._id != id) {
       return res.status(422).json({ code: 'username-not-unique' });
     }
 
